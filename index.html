@@ -1,0 +1,79 @@
+<html>
+<head>
+    <title>Belajar Inggris
+    </title>
+    <meta chatset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https:/code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row mt-1">
+            <div class="col-md-6 col-sm-10 text-center">
+                <h1 class="display-4 font-weight-normal">Chat Bott</h1>
+                <img src="image.png" class="w-75 mt-5"/>
+            </div>
+
+            <div class="col-md-4 col-sm-8 offset-1 bg-white p-3" id="outer">
+                <div class="main"></div>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Ask me any thing" id="inp_text" style="height: 50px;"/>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary btn-lg" id="send"><i class="far fa-paper-plane"></i></button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat bott javascript -->
+    <script>
+        document.getElementById("inp_text").focus();
+        document.getElementsByTagName("body")[0].addEventListener("keypress" , function (e){
+            if(e.key == "Enter"){
+                send();
+            }
+        });
+        document.getElementById("send").addEventListener("click" , send);
+        function send(){
+            var text = document.getElementById("inp_text").value;
+            if(text == ""){
+
+            }
+            else{
+                var request = document.createElement("div");
+                request.className = "request";
+                request.innerText = text;
+
+                document.getElementsByClassName("main")[0].appendChild(request);
+                document.getElementById("inp_text").value = "";
+
+                fetch(`https://api.monkedev.com/fun/chat?msg=${text}`)
+                .then(response => response.json())
+                .then(function(data){
+                    var response = document.createElement("div");
+                    response.className = "response";
+                    response.innerText = data.response;
+
+                    setTimeout(function (){
+                        document.getElementsByClassName("main")[0].appendChild(response);
+                        var a = document.getElementsByClassName("main")[0].scrollHeight;
+                        document.getElementsByClassName("main")[0].scrollTop = a+100;
+                    } , 1000)
+                });
+            }
+            var a = document.getElementsByClassName("main")[0].scrollHeight;
+        document.getElementsByClassName("main")[0].scrollTop = a;
+        };
+
+
+        </script>
+
+</body>
+</html>
